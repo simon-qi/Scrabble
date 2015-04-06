@@ -20,6 +20,7 @@ class Player
 		moveLetters = new char[7];
 		movesX = new int[7];
 		movesY = new int[7];
+		moveSize = 0;
 		points = 0;
 		name = n;
 		this.ai = ai;

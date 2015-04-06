@@ -1,4 +1,5 @@
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
@@ -1139,7 +1140,17 @@ public class Scrabble
 
 					// regenerate rack
 					if (size != 0)
+					{
 						p[currentp].fillRack();
+						if (p[currentp].ai)
+						{
+							p[currentp].bestScore = 0;
+							p[currentp].moveLetters = new char[7];
+							p[currentp].movesX = new int[7];
+							p[currentp].movesY = new int[7];
+							p[currentp].moveSize = 0;
+						}
+					}
 
 
 					if (firstturn)
