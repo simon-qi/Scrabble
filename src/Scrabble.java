@@ -50,7 +50,6 @@ public class Scrabble
 	static boolean bagshown; // if the bag is shown
 
 	static HashSet<String> words; // array of words in dictionary
-	static String[] wordsArray; // array of words in dictionary
 
 	// variables to display the points that would be gained
 	static int pointsround; // point that would be gained for current round
@@ -98,7 +97,6 @@ public class Scrabble
 			redletters[i] = new ImageIcon("files/" + (char)('a' + i) + "red.png");
 
 		words = new HashSet<String>();
-		ArrayList<String> wordsArrayList = new ArrayList<String>();
 		// reading the dictionary and storing in array	
 		try
 		{
@@ -110,12 +108,9 @@ public class Scrabble
 			while (s != null)
 			{
 				words.add(s);
-				wordsArrayList.add(s);
 				s = br.readLine();
 			}
 			
-			wordsArray = new String[wordsArrayList.size()];
-			wordsArray = wordsArrayList.toArray(wordsArray);
 			
 			br.close();
 		}
@@ -302,7 +297,12 @@ public class Scrabble
 	{
 		public void paint(Graphics g)
 		{
-
+			if (p[currentp].ai)
+			{
+				p[currentp].move();
+				calculate(false);
+			}
+			
 			// draw board using appropriate images 
 			if (numplayers == 2) 
 				g.drawImage(pic2p.getImage(), 0, -1, this);
@@ -319,6 +319,22 @@ public class Scrabble
 						else
 							g.drawImage(redletters[board[i][j] - 'a'].getImage(), 377 + i * 42, 41 + j * 42 - 36, 42, 42, this);
 
+			if (p[currentp].ai)
+			{
+				for (int i = 0; i < permanent.length; i++)
+				{
+					for (int j = 0; j < permanent[i].length; j++)
+					{
+						if (!permanent[i][j] && board[i][j] != '0')
+						{
+							g.setColor(Color.yellow);
+							g.drawRect(377 + i * 42, 41 + j * 42 - 36, 42, 42);
+						    g.setColor(Color.black);
+						}
+					}
+				}
+			}
+			
 			// draw rack using appropriate images   
 
 			for (int i = 0; i < 7; i ++)
@@ -498,9 +514,7 @@ public class Scrabble
 			{
 				// play word/pass
 				if (e.getX() >= 958 && e.getX() <= 1009 && e.getY() >= 654 && e.getY() <= 720)
-				{		
-					if (p[currentp].ai)
-						p[currentp].move();
+				{							
 					// if any new tiles played 
 					boolean newtiles = false;
 					for (int i = 0; i < 15; i ++)
@@ -1357,32 +1371,4 @@ public class Scrabble
 		else
 			return 0;
 	}
-	
-	public static boolean binSearchPrefix (String[] list, String item)
-	{
-	   int bottom = 0;                 // lower bound of subarray
-	   int top = list.length - 1;         // upper bound of subarray
-	   int middle;                        // middle of subarray
-	   boolean found = false;            // to stop if item found
-	   int location = -1;              // index of item in array
-
-	   while (bottom <= top && !found)
-	   {
-	      middle = (bottom + top)/2;
-	      if (list[middle].startsWith(item))    // success
-	      {
-	         found = true;
-	         location = middle;
-	      }
-	      else if (list[middle].compareTo(item) < 0) // not in bottom half
-	         bottom = middle + 1;
-	      else                            // item cannot be in top half
-	         top = middle - 1;
-	   }
-	   
-	   if (location == -1)
-		   return false;
-	   else
-		   return true;
-	} 
 } 

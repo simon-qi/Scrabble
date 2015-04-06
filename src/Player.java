@@ -3,6 +3,7 @@
 class Player
 {
 	char[] rack = new char[7]; // rack of the player
+	char[] origRack = new char[7]; // original rack
 	String name; // name of the player
 	int points; // the player's point
 	boolean ai; // whether the player is an ai
@@ -18,12 +19,92 @@ class Player
 			rack[i] = '0';
 
 		this.fillRack();
+		for (int i = 0; i < rack.length; i++) 
+		{
+			origRack[i] = rack[i];
+		}
 	}
 	
+    public void choose(char[] a, int R) { enumerate(a, a.length, R); }
+
+    private void enumerate(char[] a, int n, int r) {
+        if (r == 0) {
+        	char[] newArray = new char[a.length - n];
+        	for (int i = n; i < a.length; i++)
+        	{
+        		newArray[i - n] = a[i];
+        	}
+            moveHelper(newArray);
+            return;
+        }
+        for (int i = 0; i < n; i++) {
+            swap(a, i, n-1);
+            enumerate(a, n-1, r-1);
+            swap(a, i, n-1);
+         }
+    }  
+
+    // helper function that swaps a[i] and a[j]
+    public static void swap(char[] a, int i, int j) {
+        char temp = a[i];
+        a[i] = a[j];
+        a[j] = temp;
+    }
+	
 	// the ai making play
-	public void move() 
+    public void move()
+    {
+    	for (int i = 2; i <= 7; i++)
+    	    choose(origRack, i);
+    }
+    
+	private void moveHelper(char[] permRack) 
 	{
-		;
+		if (Scrabble.firstturn) // first play of game
+		{
+			for (int i = (7 - permRack.length + 1); i <= 7; i++) // horizontal
+			{
+				for (int h = 0; h < 7; h++)
+					rack[h] = origRack[h];
+					
+				for (int k = 0; k < Scrabble.board.length; k++)
+					for (int l = 0; l < Scrabble.board[k].length; l++)
+						if (!Scrabble.permanent[k][l])
+							Scrabble.board[k][l] = '0';
+						
+				for (int j = 0; j < permRack.length; j++)
+				{
+					Scrabble.board[i + j][7] = permRack[j];
+					int k;
+
+					for (k = 0; k < rack.length && rack[k] != permRack[j]; k++)
+						;
+					rack[k] = '0';
+				}
+			}
+			
+			
+			for (int i = (7 - permRack.length + 1); i <= 7; i++) // vertical
+			{
+				for (int h = 0; h < 7; h++)
+					rack[h] = origRack[h];
+				
+				for (int k = 0; k < Scrabble.board.length; k++)
+					for (int l = 0; l < Scrabble.board[k].length; l++)
+						if (!Scrabble.permanent[k][l])
+							Scrabble.board[k][l] = '0';
+				
+				for (int j = 0; j < permRack.length; j++)
+				{
+					Scrabble.board[7][i + j] = permRack[j];
+					int k;
+
+					for (k = 0; k < rack.length && rack[k] != permRack[j]; k++)
+						;
+					rack[k] = '0';
+				}
+			}
+		}
 	}
 
 	// fill empty rack locations with tiles - occurs after a round
