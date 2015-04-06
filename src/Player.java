@@ -7,10 +7,19 @@ class Player
 	String name; // name of the player
 	int points; // the player's point
 	boolean ai; // whether the player is an ai
+	int bestScore; // best score so far as played by ai
+	char[] moveLetters; // the letters used by the best ai move
+	int[] movesX; // the x coordinates of the best ai move
+	int[] movesY; // the y coordinates of the best ai move
+	int moveSize;
 
 	// constructor
 	public Player (String n, boolean ai)
 	{
+		bestScore = 0;
+		moveLetters = new char[7];
+		movesX = new int[7];
+		movesY = new int[7];
 		points = 0;
 		name = n;
 		this.ai = ai;
@@ -56,6 +65,25 @@ class Player
     {
     	for (int i = 2; i <= 7; i++)
     	    choose(origRack, i);
+    	
+    	for (int i = 0; i < Scrabble.board.length; i++)
+            for (int j = 0; j < Scrabble.board[i].length; j++)
+            	if (!Scrabble.permanent[i][j])
+            		Scrabble.board[i][j] = '0';
+    	
+    	for (int h = 0; h < 7; h++)
+			rack[h] = origRack[h];
+    	
+    	for (int i = 0; i < moveSize; i++)
+    	{
+    		Scrabble.board[movesX[i]][movesY[i]] = moveLetters[i];
+    		
+    		int k;
+
+    		for (k = 0; k < rack.length && moveLetters[i] != rack[k]; k++)
+    			;
+    		rack[k] = '0';
+    	}
     }
     
 	private void moveHelper(char[] permRack) 
@@ -64,6 +92,11 @@ class Player
 		{
 			for (int i = (7 - permRack.length + 1); i <= 7; i++) // horizontal
 			{
+				int[] movex = new int[7];
+				int indexx = 0;
+				int[] movey = new int[7];
+				int indexy = 0;
+				
 				for (int h = 0; h < 7; h++)
 					rack[h] = origRack[h];
 					
@@ -75,17 +108,38 @@ class Player
 				for (int j = 0; j < permRack.length; j++)
 				{
 					Scrabble.board[i + j][7] = permRack[j];
-					int k;
-
-					for (k = 0; k < rack.length && rack[k] != permRack[j]; k++)
-						;
-					rack[k] = '0';
+					movex[indexx++] = i + j;
+					movey[indexy++] = 7;
+				}
+				
+				Scrabble.calculate(false);
+				if (Scrabble.allwordsvalid)
+				{
+					if (Scrabble.pointsround > bestScore)
+					{
+						bestScore = Scrabble.pointsround;
+						for (int k = 0; k < permRack.length; k++)
+						{
+							moveLetters[k] = permRack[k];
+						}
+						for (int k = 0; k < indexx; k++)
+						{
+							movesX[k] = movex[k];
+							movesY[k] = movey[k]; 
+						}
+						moveSize = indexx;
+					}
 				}
 			}
 			
 			
 			for (int i = (7 - permRack.length + 1); i <= 7; i++) // vertical
 			{
+				int[] movex = new int[7];
+				int indexx = 0;
+				int[] movey = new int[7];
+				int indexy = 0;
+				
 				for (int h = 0; h < 7; h++)
 					rack[h] = origRack[h];
 				
@@ -97,11 +151,27 @@ class Player
 				for (int j = 0; j < permRack.length; j++)
 				{
 					Scrabble.board[7][i + j] = permRack[j];
-					int k;
-
-					for (k = 0; k < rack.length && rack[k] != permRack[j]; k++)
-						;
-					rack[k] = '0';
+					movex[indexx++] = 7;
+					movey[indexy++] = i + j;
+				}
+				
+				Scrabble.calculate(false);
+				if (Scrabble.allwordsvalid)
+				{
+					if (Scrabble.pointsround > bestScore)
+					{
+						bestScore = Scrabble.pointsround;
+						for (int k = 0; k < permRack.length; k++)
+						{
+							moveLetters[k] = permRack[k];
+						}
+						for (int k = 0; k < indexx; k++)
+						{
+							movesX[k] = movex[k];
+							movesY[k] = movey[k]; 
+						}
+						moveSize = indexx;
+					}
 				}
 			}
 		}

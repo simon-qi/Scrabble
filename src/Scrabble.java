@@ -8,6 +8,7 @@ public class Scrabble
 {
 	static boolean gameEnd; // whether the game has ended
 	Drawing draw; 
+	static boolean allwordsvalid;
 	ImageIcon pic2p = new ImageIcon("files/2Pboard.png");  
 	ImageIcon pic3p = new ImageIcon("files/3Pboard.png"); 
 	ImageIcon pic4p = new ImageIcon("files/4Pboard.png");  
@@ -914,7 +915,7 @@ public class Scrabble
 			if (vertical || horizontal)
 			{
 				pointsround = 0;
-				boolean allwordsvalid = true;
+				allwordsvalid = true;
 
 				if (vertical)
 				{
@@ -950,20 +951,17 @@ public class Scrabble
 						wordattempt = verticalWord(top, bottom, turnx[0]);
 						mainword = wordattempt;
 
-						if (play)
+						if (!isWord(wordattempt))
 						{
-							if (!isWord(wordattempt))
+							if (!invalidfound)
 							{
-								if (!invalidfound)
-								{
-									invalidWords = wordattempt;
-									invalidfound = true;
-								}
-								allwordsvalid = false;
+								invalidWords = wordattempt;
+								invalidfound = true;
 							}
-							else
-							{
-							}
+							allwordsvalid = false;
+						}
+						else
+						{
 						}
 					}
 
@@ -989,21 +987,19 @@ public class Scrabble
 
 							wordattempt = horizontalWord(left, right, turny[i]);
 
-							if (play)
+
+							if (!isWord(wordattempt))
 							{
-								if (!isWord(wordattempt))
+								if (!invalidfound)
 								{
-									if (!invalidfound)
-									{
-										invalidWords = wordattempt;
-										invalidfound = true;
-									}
-									allwordsvalid = false;
+									invalidWords = wordattempt;
+									invalidfound = true;
 								}
-								else
-								{
-									;
-								}
+								allwordsvalid = false;
+							}
+							else
+							{
+								;
 							}
 
 							if (index == 1 && points > temp)
@@ -1052,23 +1048,21 @@ public class Scrabble
 						points = horizontalPoint(left, right, turny[0]);
 						pointsround += points;
 
-						if (play)
-						{
-							wordattempt = horizontalWord(left, right, turny[0]);
 
-							if (!isWord(wordattempt))
+						wordattempt = horizontalWord(left, right, turny[0]);
+
+						if (!isWord(wordattempt))
+						{
+							if (!invalidfound)
 							{
-								if (!invalidfound)
-								{
-									invalidWords = wordattempt;
-									invalidfound = true;
-								}
-								allwordsvalid = false;
+								invalidWords = wordattempt;
+								invalidfound = true;
 							}
-							else
-							{
-								mainword = wordattempt;
-							}
+							allwordsvalid = false;
+						}
+						else
+						{
+							mainword = wordattempt;
 						}
 					}
 
@@ -1092,20 +1086,19 @@ public class Scrabble
 							points = verticalPoint(top, bottom, turnx[i]);
 							pointsround += points;
 
-							if (play)
-							{
-								wordattempt = verticalWord(top, bottom, turnx[i]);
 
-								if (!isWord(wordattempt))
+							wordattempt = verticalWord(top, bottom, turnx[i]);
+
+							if (!isWord(wordattempt))
+							{
+								if (!invalidfound)
 								{
-									if (!invalidfound)
-									{
-										invalidWords = wordattempt;
-										invalidfound = true;
-									}
-									allwordsvalid = false;
+									invalidWords = wordattempt;
+									invalidfound = true;
 								}
+								allwordsvalid = false;
 							}
+
 						}
 					}								    
 				}
