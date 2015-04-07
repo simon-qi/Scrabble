@@ -27,7 +27,8 @@ class Player
 
 		for (int i = 0; i < 7; i ++)
 			rack[i] = '0';
-
+        
+		
 		this.fillRack();
 		for (int i = 0; i < rack.length; i++) 
 		{
@@ -91,7 +92,7 @@ class Player
 	{
 		if (Scrabble.firstturn) // first play of game
 		{
-			for (int i = (7 - permRack.length + 1); i <= 7; i++) // horizontal
+			for (int i = (7 - permRack.length + 1); i <= 7; i++) 
 			{
 				int[] movex = new int[7];
 				int indexx = 0;
@@ -111,49 +112,6 @@ class Player
 					Scrabble.board[i + j][7] = permRack[j];
 					movex[indexx++] = i + j;
 					movey[indexy++] = 7;
-				}
-				
-				Scrabble.calculate(false);
-				if (Scrabble.allwordsvalid)
-				{
-					if (Scrabble.pointsround > bestScore)
-					{
-						bestScore = Scrabble.pointsround;
-						for (int k = 0; k < permRack.length; k++)
-						{
-							moveLetters[k] = permRack[k];
-						}
-						for (int k = 0; k < indexx; k++)
-						{
-							movesX[k] = movex[k];
-							movesY[k] = movey[k]; 
-						}
-						moveSize = indexx;
-					}
-				}
-			}
-			
-			
-			for (int i = (7 - permRack.length + 1); i <= 7; i++) // vertical
-			{
-				int[] movex = new int[7];
-				int indexx = 0;
-				int[] movey = new int[7];
-				int indexy = 0;
-				
-				for (int h = 0; h < 7; h++)
-					rack[h] = origRack[h];
-				
-				for (int k = 0; k < Scrabble.board.length; k++)
-					for (int l = 0; l < Scrabble.board[k].length; l++)
-						if (!Scrabble.permanent[k][l])
-							Scrabble.board[k][l] = '0';
-				
-				for (int j = 0; j < permRack.length; j++)
-				{
-					Scrabble.board[7][i + j] = permRack[j];
-					movex[indexx++] = 7;
-					movey[indexy++] = i + j;
 				}
 				
 				Scrabble.calculate(false);
