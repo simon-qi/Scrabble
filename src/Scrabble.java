@@ -316,8 +316,10 @@ public class Scrabble
 			for (int i = 0; i < 15; i ++)
 				for (int j = 0; j < 15; j ++)
 					if (board[i][j] != '0')
-						if (!blank[i][j])
+						if (!blank[i][j]) 
+						{
 							g.drawImage(letters[board[i][j] - 'a'].getImage(), 377 + i * 42, 41 + j * 42 - 36, this);
+						}
 						else
 							g.drawImage(redletters[board[i][j] - 'a'].getImage(), 377 + i * 42, 41 + j * 42 - 36, 42, 42, this);
 

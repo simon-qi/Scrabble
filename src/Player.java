@@ -84,15 +84,19 @@ class Player
 		for (int h = 0; h < 7; h++)
 			rack[h] = origRack[h];
 
+
 		for (int i = 0; i < moveSize; i++)
 		{
-			Scrabble.board[movesX[i]][movesY[i]] = moveLetters[i];
-
+			if (moveLetters[i] >= 'a' && moveLetters[i] <= 'z')
+			    Scrabble.board[movesX[i]][movesY[i]] = moveLetters[i];
+          
+			
 			int k;
 
 			for (k = 0; k < rack.length && moveLetters[i] != rack[k]; k++)
 				;
-			rack[k] = '0';
+			if ( k < rack.length)
+			    rack[k] = '0';
 		}
 	}
 
@@ -138,6 +142,157 @@ class Player
 							movesY[k] = movey[k]; 
 						}
 						moveSize = indexx;
+					}
+				}
+			}
+		}
+		else // not first play
+		{
+			for (int i = 0; i < Scrabble.board.length; i++)
+			{
+				for (int j = 0; j < Scrabble.board[i].length; j++)
+				{
+					if (Scrabble.permanent[i][j])
+					{
+						
+						// horizontal					
+						int left;  
+						int right; 
+						
+						for (left = i; left >= 0 && Scrabble.board[left][j] != '0'; left --)
+							;
+						
+						for (right = i; right < 15 && Scrabble.board[right][j] != '0'; right ++)
+							;
+						
+						int[] movex = new int[7];
+						int indexx = 0;
+						int[] movey = new int[7];
+						int indexy = 0;
+						
+						if (left >= 0)
+						{
+							int minleft = left - (permRack.length - 2);
+							if (minleft < 0)
+								minleft = 0;
+							
+							for (; minleft <= left; minleft++) 
+							{
+								movex = new int[7];
+								indexx = 0;
+								movey = new int[7];
+								indexy = 0;
+								
+								for (int h = 0; h < Scrabble.board.length; h++)
+								{
+									for (int k = 0; k < Scrabble.board[h].length; k++)
+									{
+										if (!Scrabble.permanent[h][k])
+											Scrabble.board[h][k] = '0';
+									}
+								}
+								
+	
+								for (int h = 0; h < rack.length && minleft + h + (right - left - 1) < 15; h++)
+								{
+									if (minleft + h >= left + 1)
+									{
+									    Scrabble.board[minleft + h + (right - left - 1)][j] = rack[h];	
+										movex[indexx++] = minleft + h + (right - left - 1);
+									}
+									else
+									{
+										Scrabble.board[minleft + h][j] = rack[h];
+										movex[indexx++] = minleft + h;
+									}
+									movey[indexy++] = j;
+											
+								}
+								
+								Scrabble.calculate(false);
+								if (Scrabble.allwordsvalid)
+								{
+									if (Scrabble.pointsround > bestScore)
+									{
+										bestScore = Scrabble.pointsround;
+										for (int k = 0; k < permRack.length; k++)
+										{
+											moveLetters[k] = permRack[k];
+										}
+										for (int k = 0; k < indexx; k++)
+										{
+											movesX[k] = movex[k];
+											movesY[k] = movey[k]; 
+										}
+										moveSize = indexx;
+									}
+								}
+							}
+						}
+						
+						// placing all tiles to the right 
+						if (right < 15)
+						{
+							movex = new int[7];
+							indexx = 0;
+							movey = new int[7];
+							indexy = 0;
+							
+							for (int h = 0; h < Scrabble.board.length; h++)
+							{
+								for (int k = 0; k < Scrabble.board[h].length; k++)
+								{
+									if (!Scrabble.permanent[h][k])
+										Scrabble.board[h][k] = '0';
+								}
+							}
+							
+
+							for (int h = 0; h < rack.length && right + h < 15; h++)
+							{
+
+								Scrabble.board[right + h][j] = rack[h];
+								movex[indexx++] = right + h;
+								movey[indexy++] = j;
+										
+							}
+							
+							Scrabble.calculate(false);
+							if (Scrabble.allwordsvalid)
+							{
+								if (Scrabble.pointsround > bestScore)
+								{
+									bestScore = Scrabble.pointsround;
+									for (int k = 0; k < permRack.length; k++)
+									{
+										moveLetters[k] = permRack[k];
+									}
+									for (int k = 0; k < indexx; k++)
+									{
+										movesX[k] = movex[k];
+										movesY[k] = movey[k]; 
+									}
+									moveSize = indexx;
+								}
+							}
+						}
+						
+						// vertical
+						int up;
+						int down;
+						
+						for (up = j; up >= 0 && Scrabble.board[i][up] != '0'; up --)
+							;
+						
+						for (down = j; down < 15 && Scrabble.board[i][down] != '0'; down ++)
+							;
+						
+						if (up >= 0)
+						{
+							int minup = up - (permRack.length - 2);
+							if (minup < 0)
+								minup = 0;
+						}
 					}
 				}
 			}
