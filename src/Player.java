@@ -44,7 +44,8 @@ class Player
 
 	private void enumerate(char[] a, int n, int r)
 	{
-		if (r == 0) {
+		if (r == 0) 
+		{
 			char[] newArray = new char[a.length - n];
 			for (int i = n; i < a.length; i++)
 			{
@@ -53,7 +54,8 @@ class Player
 			moveHelper(newArray);
 			return;
 		}
-		for (int i = 0; i < n; i++) {
+		for (int i = 0; i < n; i++) 
+		{
 			swap(a, i, n-1);
 			enumerate(a, n-1, r-1);
 			swap(a, i, n-1);
