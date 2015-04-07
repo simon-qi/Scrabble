@@ -353,7 +353,7 @@ class Player
 							}
 						}
 						
-						// placing all tiles to the right 
+						// placing all tiles downwards
 						if (down < 15)
 						{
 							movex = new int[7];
