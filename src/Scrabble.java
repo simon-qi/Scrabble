@@ -1142,6 +1142,10 @@ public class Scrabble
 					if (size != 0)
 					{
 						p[currentp].fillRack();
+						for (int i = 0; i < p[currentp].rack.length; i++) 
+						{
+							p[currentp].origRack[i] = p[currentp].rack[i];
+						}
 						if (p[currentp].ai)
 						{
 							p[currentp].bestScore = 0;
