@@ -303,6 +303,8 @@ public class Scrabble
 			{
 				p[currentp].move();
 				calculate(false);
+				if (!allwordsvalid)
+					p[currentp].recall();
 			}
 			
 			// draw board using appropriate images 
