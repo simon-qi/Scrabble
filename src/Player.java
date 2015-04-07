@@ -37,7 +37,10 @@ class Player
 	}
 
 	// a permute r
-	public void choose(char[] a, int R) { enumerate(a, a.length, R); }
+	public void choose(char[] a, int R) 
+	{ 
+		enumerate(a, a.length, R); 
+	}
 
 	private void enumerate(char[] a, int n, int r)
 	{
@@ -58,7 +61,8 @@ class Player
 	}  
 
 	// helper function that swaps a[i] and a[j]
-	public static void swap(char[] a, int i, int j) {
+	public static void swap(char[] a, int i, int j) 
+	{
 		char temp = a[i];
 		a[i] = a[j];
 		a[j] = temp;
