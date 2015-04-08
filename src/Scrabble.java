@@ -10,6 +10,9 @@ public class Scrabble
 	static boolean gameEnd; // whether the game has ended
 	Drawing draw; 
 	static boolean allwordsvalid;
+	static boolean debug = false;
+	static String[] wordAttempts = new String[100];
+	static int wordAttemptsSize = 0;
 	ImageIcon pic2p = new ImageIcon("files/2Pboard.png");  
 	ImageIcon pic3p = new ImageIcon("files/3Pboard.png"); 
 	ImageIcon pic4p = new ImageIcon("files/4Pboard.png");  
@@ -303,8 +306,6 @@ public class Scrabble
 			{
 				p[currentp].move();
 				calculate(false);
-				if (!allwordsvalid)
-					p[currentp].recall();
 			}
 			
 			// draw board using appropriate images 
@@ -916,6 +917,9 @@ public class Scrabble
 
 			String invalidWords = ""; // message displaying invalid words
 			boolean invalidfound = false;
+			
+			wordAttempts = new String[100];
+			wordAttemptsSize = 0;
 
 			if (vertical || horizontal)
 			{
@@ -954,7 +958,9 @@ public class Scrabble
 
 
 						wordattempt = verticalWord(top, bottom, turnx[0]);
+						wordAttempts[wordAttemptsSize++] = wordattempt;
 						mainword = wordattempt;
+						//System.out.println(wordattempt);
 
 						if (!isWord(wordattempt))
 						{
@@ -991,7 +997,8 @@ public class Scrabble
 							pointsround += points;
 
 							wordattempt = horizontalWord(left, right, turny[i]);
-
+							wordAttempts[wordAttemptsSize++] = wordattempt;
+                            //System.out.println(wordattempt);
 
 							if (!isWord(wordattempt))
 							{
@@ -1055,6 +1062,8 @@ public class Scrabble
 
 
 						wordattempt = horizontalWord(left, right, turny[0]);
+						wordAttempts[wordAttemptsSize++] = wordattempt;
+						//System.out.println(wordattempt);
 
 						if (!isWord(wordattempt))
 						{
@@ -1093,6 +1102,8 @@ public class Scrabble
 
 
 							wordattempt = verticalWord(top, bottom, turnx[i]);
+							wordAttempts[wordAttemptsSize++] = wordattempt;
+							//System.out.println(wordattempt);
 
 							if (!isWord(wordattempt))
 							{
