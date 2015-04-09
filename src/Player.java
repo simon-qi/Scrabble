@@ -90,8 +90,8 @@ class Player
 		for (int i = 0; i < moveSize; i++)
 		{
 			Scrabble.board[movesX[i]][movesY[i]] = moveLetters[i];
-          
-			
+
+
 			int k;
 
 			for (k = 0; k < rack.length && moveLetters[i] != rack[k]; k++)
@@ -154,25 +154,25 @@ class Player
 				{
 					if (Scrabble.permanent[i][j])
 					{
-						
+
 						// horizontal					
 						int left;  
 						int right; 
-						
+
 						for (left = i; left >= 0 && Scrabble.board[left][j] != '0'; left --)
 							;
-						
+
 						for (right = i; right < 15 && Scrabble.board[right][j] != '0'; right ++)
 							;
-						
+
 						int[] movex = new int[7];
 						int indexx = 0;
 						int[] movey = new int[7];
 						int indexy = 0;
-						
+
 						if (left < 0)
 							left = right;
-						
+
 						if (left < 15)
 						{
 							int lettersCovered = permRack.length;
@@ -184,7 +184,7 @@ class Player
 									lettersCovered --;
 								}
 							}
-							
+
 							if (lettersCovered != 1)
 							{
 								int k;
@@ -192,7 +192,7 @@ class Player
 									;
 								minleft = k;
 							}
-							
+
 
 							int permanents = 0;
 							for (; minleft <= right; minleft++) 
@@ -204,7 +204,7 @@ class Player
 									indexx = 0;
 									movey = new int[7];
 									indexy = 0;
-									
+
 									for (int h = 0; h < Scrabble.board.length; h++)
 									{
 										for (int k = 0; k < Scrabble.board[h].length; k++)
@@ -213,9 +213,9 @@ class Player
 												Scrabble.board[h][k] = '0';
 										}
 									}
-									
+
 									permanents = 0;
-		
+
 									for (int h = 0; h < permRack.length && minleft + h + permanents < 15; h++)
 									{
 										if (Scrabble.permanent[minleft + h + permanents][j])
@@ -226,12 +226,12 @@ class Player
 										else
 										{
 											Scrabble.board[minleft + h + permanents][j] = permRack[h];
-                                            movex[indexx++] = minleft + h + permanents;
-										    movey[indexy++] = j;
+											movex[indexx++] = minleft + h + permanents;
+											movey[indexy++] = j;
 										}
-												
+
 									}
-									
+
 									Scrabble.calculate(false);
 									if (Scrabble.allwordsvalid)
 									{
@@ -249,33 +249,33 @@ class Player
 												Scrabble.board[movesX[k]][movesY[k]] = moveLetters[k];
 											}
 											Scrabble.calculate(false);
-											
+
 											moveSize = indexx;
 										}
 									}
 								}						
 							}
 						}
-						
-						
+
+
 						// vertical				
 						int up;  
 						int down; 
-						
+
 						for (up = j; up >= 0 && Scrabble.board[i][up] != '0'; up --)
 							;
-						
+
 						for (down = i; down < 15 && Scrabble.board[i][down] != '0'; down ++)
 							;
-						
+
 						movex = new int[7];
 						indexx = 0;
 						movey = new int[7];
 						indexy = 0;
-						
+
 						if (up < 0)
 							up = down;
-                        
+
 						if (up < 15)
 						{
 							int lettersCovered = permRack.length;
@@ -287,7 +287,7 @@ class Player
 									lettersCovered --;
 								}
 							}
-							
+
 							if (lettersCovered != 1)
 							{
 								int k;
@@ -295,7 +295,7 @@ class Player
 									;
 								minup = k;
 							}
-							
+
 
 							int permanents = 0;
 							for (; minup <= right; minup++) 
@@ -307,7 +307,7 @@ class Player
 									indexx = 0;
 									movey = new int[7];
 									indexy = 0;
-									
+
 									for (int h = 0; h < Scrabble.board.length; h++)
 									{
 										for (int k = 0; k < Scrabble.board[h].length; k++)
@@ -316,9 +316,9 @@ class Player
 												Scrabble.board[h][k] = '0';
 										}
 									}
-									
+
 									permanents = 0;
-		
+
 									for (int h = 0; h < permRack.length && minup + h + permanents < 15; h++)
 									{
 										if (Scrabble.permanent[i][minup + h + permanents])
@@ -329,12 +329,12 @@ class Player
 										else
 										{
 											Scrabble.board[i][minup + h + permanents] = permRack[h];
-                                            movey[indexx++] = minup + h + permanents;
-										    movex[indexy++] = i;
+											movey[indexx++] = minup + h + permanents;
+											movex[indexy++] = i;
 										}
-												
+
 									}
-									
+
 									Scrabble.calculate(false);
 									if (Scrabble.allwordsvalid)
 									{
@@ -352,12 +352,12 @@ class Player
 												Scrabble.board[movesX[k]][movesY[k]] = moveLetters[k];
 											}
 											Scrabble.calculate(false);
-											
+
 											moveSize = indexx;
 										}
 									}
 								}
-								
+
 							}
 						}
 					}
