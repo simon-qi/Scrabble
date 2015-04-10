@@ -718,13 +718,6 @@ public class Scrabble
 						draw.repaint();
 					}
 
-					// dictionary
-					if (e.getX() >= 115 && e.getX() <= 186 && e.getY() >= 685 - 36 && e.getY() <= 763 - 36)
-					{
-						new Dictionary();
-
-					}
-
 					// swap
 					if (e.getX() >= 379 && e.getX() <= 450 && e.getY() >= 685 - 36 && e.getY() <= 763 - 36)
 					{
@@ -737,23 +730,33 @@ public class Scrabble
 						else if (newtiles)
 							JOptionPane.showMessageDialog(frame, "You can not swap after tiles have been placed.");
 					}
+				}
+				
+				calculate(false);
+			}
 
-					// tile bag
-					if (e.getX() >= 21 && e.getX() <= 93 && e.getY() >= 665 - 36 && e.getY() <= 757 - 36)
-					{
-						bagshown = true;
-					}
-
-					// return to menu
-					if (e.getX() >= 24 && e.getX() <= 83 && e.getY() >= 75 && e.getY() <= 100)
-					{
-						backmenu = true;
-						Scrabble.frame.setVisible(false);
-						Main.frame.setVisible(true);
-					}
+			
+			if (!bagshown)
+			{
+				// dictionary
+				if (e.getX() >= 115 && e.getX() <= 186 && e.getY() >= 685 - 36 && e.getY() <= 763 - 36)
+				{
+					new Dictionary();
+				}
+				
+				// tile bag
+				if (e.getX() >= 21 && e.getX() <= 93 && e.getY() >= 665 - 36 && e.getY() <= 757 - 36)
+				{
+					bagshown = true;
 				}
 
-				calculate(false);
+				// return to menu
+				if (e.getX() >= 24 && e.getX() <= 83 && e.getY() >= 75 && e.getY() <= 100)
+				{
+					backmenu = true;
+					Scrabble.frame.setVisible(false);
+					Main.frame.setVisible(true);
+				}
 			}
 			else
 			{
