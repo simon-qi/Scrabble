@@ -195,7 +195,7 @@ class Player
 
 
 							int permanents = 0;
-							for (; minleft <= right; minleft++) 
+							for (; minleft <= right && minleft < 15; minleft++) 
 							{
 								if (!Scrabble.permanent[minleft][j])
 								{
@@ -298,7 +298,7 @@ class Player
 
 
 							int permanents = 0;
-							for (; minup <= right; minup++) 
+							for (; minup <= down && minup < 15; minup++) 
 							{
 								if (!Scrabble.permanent[i][minup])
 								{
