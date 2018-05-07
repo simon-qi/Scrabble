@@ -1,5 +1,5 @@
 // a class that creates a player
-// credit: the choose, enumerate, and swap methods come from
+// credit: the choose, enumerate, and swap methods are modified from
 // http://introcs.cs.princeton.edu/java/23recursion/PermutationsK.java.html
 
 class Player
@@ -38,31 +38,37 @@ class Player
 		}
 	}
 
-	// a permute r
-	public void choose(char[] a, int R) 
-	{ 
-		enumerate(a, a.length, R); 
-	}
+    public void choose(char[] a, int k) {
+        enumerate(a, 0, k);
+    }
 
-	private void enumerate(char[] a, int n, int r)
-	{
-		if (r == 0) 
-		{
-			char[] newArray = new char[a.length - n];
-			for (int i = n; i < a.length; i++)
+    private void enumerate(char[] a, int n, int k) {
+    	String current = "";
+    	for (int i = 0; i < n; i++) {
+    		if (a[i] == ' ')
+    			return;
+    		current += a[i];
+    	}
+
+    	if (!((Scrabble.wordsTrie).startsWith(current)))
+    		return;
+    	
+        if (k == 0) {
+			char[] newArray = new char[n];
+			for (int i = 0; i < n; i++)
 			{
-				newArray[i - n] = a[i];
+				newArray[i] = a[i];
 			}
 			moveHelper(newArray);
 			return;
-		}
-		for (int i = 0; i < n; i++) 
-		{
-			swap(a, i, n-1);
-			enumerate(a, n-1, r-1);
-			swap(a, i, n-1);
-		}
-	}  
+        }
+
+        for (int i = n; i < a.length; i++) {
+            swap(a, i, n);
+            enumerate(a, n+1, k-1);
+            swap(a, i, n);
+        }
+    }  
 
 	// helper function that swaps a[i] and a[j]
 	public static void swap(char[] a, int i, int j) 

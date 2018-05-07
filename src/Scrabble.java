@@ -54,7 +54,8 @@ public class Scrabble
 	static int size; // number of tiles in back
 	static boolean bagshown; // if the bag is shown
 
-	static HashSet<String> words; // array of words in dictionary
+	static HashSet<String> words; // set of words in dictionary
+	static Trie wordsTrie; // words represented in a trie
 
 	// variables to display the points that would be gained
 	static int pointsround; // point that would be gained for current round
@@ -85,9 +86,9 @@ public class Scrabble
 
 	public Scrabble()
 	{
+		wordsTrie = new Trie();
 		draw = new Drawing();
 		frame = new JFrame("Scrabble");
-		initialize();
 
 		// creating images and setting up 
 		for (int i = 0; i < 26; i ++)
@@ -102,10 +103,10 @@ public class Scrabble
 			redletters[i] = new ImageIcon("files/" + (char)('a' + i) + "red.png");
 
 		words = new HashSet<String>();
-		// reading the dictionary and storing in array	
+		// reading the dictionary and storing in set	
 		try
 		{
-			// read from file and store in the array
+			// read from file and store in the set
 			FileReader fr = new FileReader("files/TWL06.txt");
 			BufferedReader br = new BufferedReader(fr);
 			String s = br.readLine();
@@ -113,6 +114,7 @@ public class Scrabble
 			while (s != null)
 			{
 				words.add(s);
+				wordsTrie.insert(s.toLowerCase());
 				s = br.readLine();
 			}
 			
@@ -122,6 +124,7 @@ public class Scrabble
 		catch(IOException e)
 		{
 		}	
+		initialize();
 
 
 		// setting up graphics
