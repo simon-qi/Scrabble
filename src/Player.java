@@ -45,12 +45,12 @@ class Player
     private void enumerate(char[] a, int n, int k) {
     	String current = "";
     	for (int i = 0; i < n; i++) {
-    		if (a[i] == ' ')
+    		if (a[i] == ' ' || a[i] == '0')
     			return;
     		current += a[i];
     	}
 
-    	if (!((Scrabble.wordsTrie).startsWith(current)))
+    	if (!((Scrabble.wordsTrie).startsWith(current.toLowerCase())))
     		return;
     	
         if (k == 0) {
@@ -194,7 +194,7 @@ class Player
 							if (lettersCovered != 1)
 							{
 								int k;
-								for (k = 0; k < 15 && Scrabble.permanent[k][j]; i++)
+								for (k = 0; k < 15 && Scrabble.permanent[k][j]; k++)
 									;
 								minleft = k;
 							}
@@ -297,7 +297,7 @@ class Player
 							if (lettersCovered != 1)
 							{
 								int k;
-								for (k = 0; k < 15 && Scrabble.permanent[i][k]; i++)
+								for (k = 0; k < 15 && Scrabble.permanent[i][k]; k++)
 									;
 								minup = k;
 							}
